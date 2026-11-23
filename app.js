@@ -6,8 +6,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // book here, and "open" launches it in a new tab.
 
 const WORK = {
-  id: 'tsunagaru',
-  url: 'https://muse.ai/s/make-serusu-cs-rutogemu-os6xb2gxlxaxtxdo/2Mkm0NI3kPzRvkVxHGWBD7kD_76Hd_Cn0GUXOa_-V_g',
+  id: 'yukemuri',
+  url: 'https://muse.ai/s/asitanotang-kemuri-qian-bian-xqw6xbxz2txtaxmy/pEIxZ7vbU-vNpw3nFBZTnmY8BVL8Fzm-H-Wfj2vIrrI',
 };
 const BOOK_POS = new THREE.Vector3(0, 0, -7.6);
 const PROMPT_RANGE = 2.6;
@@ -16,7 +16,7 @@ const MODEL_YAW = 0; // Godot's glTF export already puts her facing in glTF conv
 
 // ---------- state ----------
 let visited = {};
-try { visited = JSON.parse(localStorage.getItem('fengarden_visited_v1') || '{}'); } catch (e) { visited = {}; }
+try { visited = JSON.parse(localStorage.getItem('fengarden_visited_v2') || '{}'); } catch (e) { visited = {}; }
 let panelOpen = false;
 let toastT = 0;
 
@@ -144,11 +144,11 @@ book.position.set(BOOK_POS.x, 1.62, BOOK_POS.z);
 book.rotation.x = -0.1;
 arch.add(book);
 box(0.95, 1.22, 0.28, 0xeee3c7, 0, 0, -0.02, book);
-box(1.05, 1.35, 0.3, 0x8c2933, 0, 0, 0.02, book, 0.6);
+box(1.05, 1.35, 0.3, 0x2f5d8a, 0, 0, 0.02, book, 0.6);
 const goldBand = box(1.06, 0.16, 0.31, 0xe6b840, 0, 0.3, 0.02, book, 0.3);
 goldBand.material.metalness = 0.7;
 // signs
-const sign1 = textSprite('『つながる、工場。』', 128, '#ffffff', '#261a14', 0.85);
+const sign1 = textSprite('『あしたの湯けむり』', 128, '#ffffff', '#261a14', 0.85);
 sign1.position.set(0, 2.7, -6.1); scene.add(sign1);
 const sign2 = textSprite('ふぇんの書庫', 96, '#f2ebcc', '#261a14', 0.55);
 sign2.position.set(0, 4.25, -8.2); scene.add(sign2);
@@ -254,7 +254,7 @@ document.getElementById('openBtn').addEventListener('click', () => { if (!panelO
 
 // ---------- UI / work flow ----------
 const $ = (id) => document.getElementById(id);
-function count() { return Object.keys(visited).length; }
+function count() { return visited[WORK.id] ? 1 : 0; }
 function nearBook() {
   return Math.hypot(player.position.x - BOOK_POS.x, player.position.z - BOOK_POS.z) < PROMPT_RANGE;
 }
@@ -286,11 +286,11 @@ $('closeDetail').addEventListener('click', closePanel);
 $('openWork').addEventListener('click', () => {
   window.open(WORK.url, '_blank');
   visited[WORK.id] = true;
-  try { localStorage.setItem('fengarden_visited_v1', JSON.stringify(visited)); } catch (e) {}
+  try { localStorage.setItem('fengarden_visited_v2', JSON.stringify(visited)); } catch (e) {}
   $('chime').play().catch(() => {});
   refreshVisit();
   closePanel();
-  showToast('『つながる、工場。』をひらいた。本が1冊、あつまった');
+  showToast('『あしたの湯けむり』をひらいた。本が1冊、あつまった');
 });
 function onKey(e, down) {
   if (!down || e.repeat) return;
